@@ -1,0 +1,87 @@
+{{% extends 'base_account.html' %}
+{% block title %} 注册{% endblock %}
+{% block content %}
+<div id="loginbox">
+
+    <form id="loginform" class="form-vertical" action="{% url 'workflow:register' %}" method="post">
+        {% csrf_token %}
+{#        <input type="hidden" name="csrfmiddlewaretoken" value="1d6sIn7S8ggNlhu2P8KfaWxG7f36wOfn">#}
+        <div class="control-group normal_text"> <h3><img src="/static/img/logo.png" alt="Logo"></h3></div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" name="username" placeholder="用户名">
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" name="first_name" placeholder="名字">
+                </div>
+            </div>
+        </div>
+         <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" name="email" placeholder="邮箱地址">
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" name="password" placeholder="密码">
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" name="password2" placeholder="再次输入密码">
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <span class="pull-left"><button type="reset" class="btn btn-success">重新输入</button></span>
+
+            <span class="pull-right"><input class="btn btn-success" type="submit" value="创建账户"></span>
+
+{#            <input type="hidden" name="next" value="">#}
+        </div>
+    </form>
+{#    <form id="recoverform" action="#" class="form-vertical">#}
+{#        <p class="normal_text">Enter your e-mail address below and we will send you instructions how to recover a password.</p>#}
+{##}
+{#        <div class="controls">#}
+{#            <div class="main_input_box">#}
+{#                <span class="add-on bg_lo"><i class="icon-envelope"></i></span><input type="text" placeholder="E-mail address">#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="form-actions">#}
+{#            <span class="pull-left"><a href="#" class="flip-link btn btn-success" id="to-login">« Back to login</a></span>#}
+{#            <span class="pull-right"><a class="btn btn-info">Reecover</a></span>#}
+{#        </div>#}
+{#    </form>#}
+{#</div>#}
+{##}
+
+
+
+
+
+
+
+
+
+
+
+{#    <form  action="{% url 'workflow:register' %}" method="post">#}
+{#        {{ register_form.as_p}}#}
+{#        {% csrf_token %}#}
+{#        <p><input class="btn btn-success" type="submit" value="创建账户"></p>#}
+{#        <button type="reset" class="btn btn-success">重置</button>#}
+{#    </form>#}
+
+{% endblock %}

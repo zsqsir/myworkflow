@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}请假申请{% endblock %}
+{% block nav %}<a href="{% url 'workflow:application' %}" class="current">请假申请</a>{% endblock %}
+{% block left %}
+    <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span12 ">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                        <h5>请假申请</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <form action="." method="post" class="form-horizontal">
+                            {% csrf_token %}
+                            {% for field in application_form %}
+                                <div class="control-group">
+                                    {{field.error}}
+                                    <label class="control-label">{{ field.label }}</label>
+                                    <div class="controls ">
+                                        {{ field}}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <p><font color="white">这里有彩蛋哦！这里有彩蛋哦！这里有彩蛋哦！</font><button type="submit" class="btn btn-success center-block">申请</button></P>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

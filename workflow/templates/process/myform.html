@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}我创建的表单{% endblock %}
+{% block nav %}<a href="{% url 'workflow:myform' %}" class="current">我的创建的表单</a>{% endblock %}
+{% block left %}
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                    <h5>我创建的表单</h5>
+                </div>
+                <div class="widget-content nopadding">
+                    <table class="table table-bordered data-table">
+                        <thead>
+                        <tr>
+                            <th>创建人</th>
+                            <th>标题</th>
+                            <th>描述</th>
+                            <th>创建时间</th>
+                            <th>计划完成时间</th>
+                            <th>相关人员</th>
+                            <th>处理状态</th>
+                            <th>部门</th>
+{#                            <th>转交</th>#}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for myform in myforms %}
+                            <tr class="center">
+                                <td>{{ myform.creater.first_name }}</td>
+                                <td>{{ myform.title }}</td>
+                                <td>{{ myform.description}}</td>
+                                <td>{{ myform.create_time|date:"Y-m-d" }}</td>
+                                <td>{{ myform.plan_finish_time|date:"Y-m-d" }}</td>
+                                <td>{{ myform.related_person}}</td>
+                                <td>{{ myform.who_is_processing }}→{{ myform.status_level }}</td>
+                                <td>{{ myform.department }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ui.custom.js' %}"></script>
+    <script src="{% static 'js/select2.min.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/matrix.tables.js' %}"></script>
+{% endblock %}
