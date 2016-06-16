@@ -37,3 +37,17 @@ class WorksheetAdmin(admin.ModelAdmin):
     list_display = ['worksheet_person','title','who_is_processing','create_time']
     list_filter =['creater__first_name']
 admin.site.register(worksheet,WorksheetAdmin)
+
+class UpFileAdmin(admin.ModelAdmin):
+    list_display = ['upfile_of_person','title','detail']#,'file'
+    list_filter = ( 'author__first_name',)
+    search_fields = ('title', 'detail', 'author__first_name')
+    raw_id_fields = ('author',)
+    date_hierarchy = 'created'
+admin.site.register(UpFile,UpFileAdmin)
+class FileAdmin(admin.ModelAdmin):
+    list_display = ['upfile_id',]
+admin.site.register(File,FileAdmin)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ['message_admin','created']
+admin.site.register(Message,MessageAdmin)

@@ -4,14 +4,15 @@
 {% block title %}登录{% endblock %}
 {% block content %}
 <div id="loginbox">
-{#    <form id="loginform" class="form-vertical" action="{% url 'workflow:login' %}" method="post">#}
+
     <form id="loginform" class="form-vertical" action="{% url 'django.contrib.auth.views.login' %}" method="post">
         {% csrf_token %}
         <div class="control-group normal_text"> <h3><img src="{% static 'img/logo.png' %}" alt="Logo" /></h3></div>
         <div class="control-group">
             <div class="controls">
                 <div class="main_input_box">
-                    <span class="add-on bg_lg"><i class="icon-user"></i></span><input type="text" name='username' placeholder="用户名" />
+                    <span class="add-on bg_lg"><i class="icon-user"></i></span><input  type="text" name='username' placeholder="用户名" /><span id="name_error"></span>
+
                 </div>
             </div>
         </div>
@@ -47,4 +48,5 @@
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/matrix.login.js' %}"></script>
+
 {% endblock %}

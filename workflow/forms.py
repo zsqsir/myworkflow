@@ -41,7 +41,7 @@ class Leave_application_Form(forms.ModelForm):
             'finished_date': SelectDateWidget,
         }
 class ReimbursementForm(forms.ModelForm):
-    def test_num(self):
+    def clean_money(self):
         num = self.cleaned_data['money']
         if float(num) < 0:
             raise forms.ValidationError('金额错误，检查后重试')
@@ -54,3 +54,16 @@ class ReimbursementForm(forms.ModelForm):
             'start_date': SelectDateWidget,
             'end_date': SelectDateWidget,
         }
+class UpFileForm(forms.ModelForm):
+    class Meta:
+        model=UpFile
+        fields=('title','detail') #
+class MyfileForm(forms.ModelForm):
+    class Meta:
+        model=File
+        fields=('file_name',)
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model=Message
+        fields=('to_user','title','content')

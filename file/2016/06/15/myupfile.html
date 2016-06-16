@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}文件上传{% endblock %}
+{% block nav %}<a href="{% url 'workflow:application' %}" class="current">文件上传</a>{% endblock %}
+{% block left %}
+
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                    <h5>我上传的文件</h5>
+                </div>
+                <div class="widget-content nopadding">
+                    <table class="table table-bordered data-table">
+                        <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>文件名</th>
+                            <th>描述</th>
+                            <th>审批状态</th>
+                            <th>答复</th>
+                            <th>上传时间</th>
+                            <th>修改时间</th>
+                            <th style="width: 4cm">审批</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for myfile in myfiles %}
+                            <tr class="center">
+                                <td>{{ myfile.title }}</td>
+                                <td>{{ myfile.file.name }}</td>
+                                <td>{{ myfile.detail}}</td>
+                                <td>{{ myfile.status }}</td>
+                                <td>{{ myfile.reply}}</td>
+                                <td>{{ myfile.created|date:"Y年m月d日" }}</td>
+                                <td>{{ myfile.update|date:"Y年m月d日" }}</td>
+{#                                <td><form  action="." class="form-inline" method="post" enctype="multipart/form-data" >#}
+{#                                    {% csrf_token %}#}
+{#                                    <input style="width: 3cm" type='file' name="change_file"></input>#}
+{#                                    <input type="hidden" name="id" value ="{{ myfile.id }}">#}
+{#                                    <input style="width: 3cm" type="submit" value="更新文件" class="btn btn-warning ">#}
+{#                                </form></td>#}
+                                <td style="width: 2.5cm">
+                                    <form action="." class="form-inline" method="post" enctype="multipart/form-data" >
+                                        {% csrf_token %}
+                                            <div class="control-group">
+                                                <div class="controls ">
+                                                    {{ myfileform.file_all}}
+                                                </div>
+                                            </div>
+                                        <input type="hidden" name="id" value ="{{ myfile.id }}">
+                                        <input style="width: 2cm" type="submit" value="更新文件" class="btn btn-warning ">
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

@@ -114,3 +114,6 @@ LOGIN_URL = '/login/'
 LOGOUT_URL = '/login/'
 
 PASSWORD_RESET_TIMEOUT_DAYS = 3
+
+MEDIA_URL = '/file/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'file/')

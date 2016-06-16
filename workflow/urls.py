@@ -14,4 +14,13 @@ urlpatterns=[
     url(r'^reimbursement/$',views.creat_reimbursement,name='reimbursement'),
     url(r'^myreimbursement/$',views.myreimbursement,name='myreimbursement'),
     url(r'^p_reimbursement/$',views.p_reimbursement,name='p_reimbursement'),
+    url(r'^upfile/$',views.upfile,name='upfile'),
+    url(r'^myupfile/$',views.myupfile,name='myupfile'),
+    url(r'^ctmessage/$',views.ctmessage,name='ctmessage'),
+    url(r'^mymessage/$',views.mymessage,name='mymessage'),
+    url(r'^message/(?P<mark_id>[0-9]+)/$',views.message_detail,name='message_detail'),
+    url(r'^msg_ajax/$',views.msg_ajax,name='msg_ajax'),
+
+
+
 ]

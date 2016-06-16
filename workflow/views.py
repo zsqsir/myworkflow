@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import *
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from .models import *
 from django.contrib import messages
 
@@ -128,6 +128,106 @@ def p_reimbursement(request):
             new_date.status='审批通过'
             new_date.save()
     return render(request,'process/p_reimbursement.html',content)
+
+@login_required()
+def upfile(request):
+    content = dict(
+        upfileform=UpFileForm(),
+        myfileform=MyfileForm(),
+    )
+    if request.method=='POST':
+        upfileform=UpFileForm(request.POST)#,request.FILES
+        myfileform = MyfileForm(request.POST, request.FILES)
+        if upfileform.is_valid() and myfileform.is_valid():
+            extent=upfileform.save(commit=False)
+            extent.author=request.user
+            extent.save()
+            newfile=myfileform.save(commit=False)
+            newfile.file_id=extent
+            newfile.save()
+            messages.success(request, '上传成功')
+        else:
+            messages.error(request, '上传失败，检查后重试')
+    return render(request,'process/upfile.html',content)
+
+@login_required()
+def myupfile(request):
+    content=dict(
+        myfiles=UpFile.objects.filter(author=request.user).order_by('-update'),
+        myfileform=MyfileForm(),
+    )
+    if request.method=='POST':
+        id_num=request.POST['id']
+        id=UpFile.objects.get(id=id_num)
+
+        myfileform =MyfileForm(request.POST,request.FILES)
+        if myfileform.is_valid():
+            new_form=myfileform.save(commit=False)
+            new_form.file_id=id
+            new_form.save()
+            messages.success(request, '上传成功')
+        else:
+            messages.error(request, '上传失败，检查后重试')
+    return render(request,'process/myupfile.html',content)
+
+def ctmessage(request):
+    content=dict(
+        form=MessageForm(),
+    )
+    if request.method=='POST':
+        new_form=MessageForm(request.POST)
+        if new_form.is_valid():
+            new_message=new_form.save(commit=False)
+            new_message.from_user=request.user
+            new_message.save()
+            new_message.up_id()
+            messages.success(request,'发送成功')
+        else:
+            messages.error(request,'发送失败')
+    return render(request,'process/creat_message.html',content)
+
+def mymessage(request):
+    content=dict(
+        messages_from=Message.objects.filter(to_user=request.user).exclude(accept_msg_status=0),
+        messages_to=Message.objects.filter(from_user=request.user).exclude(sender_msg_status=0),
+
+    )
+    return render(request, 'process/mymessage.html', content)
+
+def message_detail(request,mark_id):
+    content=dict(
+        message=Message.objects.filter(marks=mark_id)
+    )
+    if request.method=='POST':
+        user=User.objects.get(id=request.POST['to_user'])
+        msg=Message(from_user=request.user,to_user=user,title=request.POST['title'],marks=request.POST['mark_id'],content=request.POST['msg'])
+        msg.save()
+        messages.success(request,'成功')
+    return render(request,'process/message_detail.html',content)
+
+
+def msg_ajax(request):
+    if request.POST.get('accept_id'):
+        id=request.POST.get('accept_id')
+        msg=Message.objects.get(id=int(id))
+        msg.accept_msg_status=0
+        msg.save()
+        return JsonResponse({'status':"ok"})
+    if request.POST.get('send_id'):
+        id=request.POST.get('send_id')
+        msg = Message.objects.get(id=int(id))
+        msg.sender_msg_status=0
+        msg.save()
+        return JsonResponse({'status':"ok"})
+    else:
+        return JsonResponse({"status":"wrong value"})
+
+
+
+
+
+
+
 
 def test(request):
     return render(request,'process/test.html')

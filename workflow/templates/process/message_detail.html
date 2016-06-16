@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block title %}短消息{% endblock %}
+{% block nav %}<a href="{% url 'workflow:mymessage' %}" class="current">我的收件箱</a>{% endblock %}
+{% block left %}
+{% with ms=message  %}
+    <div class="row-fluid">
+        <div class="span12">
+                <div class="widget-box widget-chat">
+                    <div class="widget-title bg_lb"> <span class="icon"> <i class="icon-comment"></i> </span>
+                        <h5>收件箱</h5>
+                    </div>
+                    <div class="widget-content nopadding collapse in" id="collapseG4">
+                        <div class="chat-users panel-right2">
+                            <div class="panel-title">
+                                <h5>用户</h5>
+                            </div>
+                            <div class="panel-content nopadding">
+                                <ul class="contact-list">
+                                    <li id="user-Alex" class="online"><a href="#"><img alt="" src="img/demo/av1.jpg"> <span>{{ ms.first.from_user }}</span></a></li>
+                                    <li id="user-John" class="online new"><a href="#"><img alt="" src="img/demo/av3.jpg"> <span>{{ ms.first.to_user }}</span></a><span class="msg-count badge badge-info">3</span></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="chat-content panel-left2">
+                            <div class="chat-messages" id="chat-messages">
+                                <div id="chat-messages-inner">
+                                    {% for i in ms %}
+                                    <p id="msg-1" class="user-linda" style="display: block;">
+                                        <span class="msg-block"><img src="img/demo/av2.jpg" alt="">
+                                        <strong>{{ i.from_user.first_name }}说</strong> <span class="time">{{ i.created|date:"m月d日"  }}</span>
+                                            <span class="msg">{{ i.content }}</span>
+                                        </span></p>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                            <div class="chat-message well">
+                                <form action="." method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-success">Send</button>
+                                    <span class="input-box">
+                                        <input type="hidden" name='title' value="回复:{{ ms.first.title }}">
+                                        <input type="hidden" name='mark_id' value="{{ ms.first.marks }}">
+                                        <input type="hidden" name='to_user' value="{{ ms.first.from_user.id}}">
+                                        <input type="text" name="msg" id="msg-box">
+                                    </span>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+{% endwith %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ui.custom.js' %}"></script>
+    <script src="{% static 'js/select2.min.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/matrix.tables.js' %}"></script>
+{% endblock %}

@@ -17,6 +17,8 @@ def worksheet_percent(request):
             percent= '%.2f%%'%((b_percent/a_percent.count())*100)
         # percent = b_percent / a_percent.count()
             return {'percent': percent}
+        else:
+            return {}
     else:
         return {}
 def percent(request):
@@ -26,5 +28,7 @@ def percent(request):
         if c_percent and d_percent:
             percent2 = '%.2f%%' % ((d_percent / c_percent.count()) * 100)
             return {'percent2': percent2}
+        else:
+            return {}
     else:
         return {}

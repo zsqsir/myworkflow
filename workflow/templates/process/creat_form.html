@@ -1,21 +1,15 @@
 {% extends 'base.html' %}
-{% block title %}新建表单{% endblock %}
-{% block nav %}<a href="{% url 'workflow:creat_form' %}" class="current">创建的表单</a>{% endblock %}
+{% block title %}新建工单{% endblock %}
+{% block nav %}<a href="{% url 'workflow:creat_form' %}" class="current">创建的工单</a>{% endblock %}
 {% block left %}
     <div class="span12 ">
         <div class="widget-box">
             <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-                <h5>新建表单</h5>
+                <h5>新建工单</h5>
             </div>
             <div class="widget-content nopadding  ">
                 <form action="." class="form-horizontal" method="post">
                     {% csrf_token %}
-                    <div class="control-group">
-              <label class="control-label">Date picker (dd-mm)</label>
-              <div class="controls">
-                <input type="text" data-date="01-02-2013" data-date-format="dd-mm-yyyy" value="01-02-2013" class="datepicker span11">
-                <span class="help-block">Date with Formate of  (dd-mm-yy)</span> </div>
-            </div>
                     {% for field in form %}
                         <div class="control-group">
                             {{field.error}}
@@ -38,7 +32,7 @@
                         </div>
 
                     </div>
-                    <p><font color="white">这里有彩蛋哦！这里有彩蛋哦！这里有彩蛋哦！</font><input  type="submit" value="&nbsp;提&nbsp;交&nbsp;&nbsp;" class="btn-lg btn-primary "></p>
+                    <p><font color="#f8f8ff">这里有彩蛋哦！这里有彩蛋哦！这里有彩蛋哦！</font><input  type="submit" value="&nbsp;提&nbsp;交&nbsp;&nbsp;" class="btn-lg btn-primary "></p>
 
                 </form>
             </div>
