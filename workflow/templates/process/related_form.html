@@ -30,8 +30,8 @@
                                 <td>{{ myform.creater.first_name }}</td>
                                 <td>{{ myform.title }}</td>
                                 <td>{{ myform.description}}</td>
-                                <td>{{ myform.create_time }}</td>
-                                <td>{{ myform.plan_finish_time }}</td>
+                                <td>{{ myform.create_time|date:"Y年m月d日" }}</td>
+                                <td>{{ myform.plan_finish_time|date:"Y年m月d日" }}</td>
                                 <td>{{ myform.related_person}}</td>
                                 <td>{{ myform.who_is_processing }}→→{{ myform.status_level }}</td>
                                 <td>{{ myform.department }}</td>
@@ -74,8 +74,8 @@
                                 <td>{{ myprocess.creater.first_name }}</td>
                                 <td>{{ myprocess.title }}</td>
                                 <td>{{ myprocess.description}}</td>
-                                <td>{{ myprocess.create_time }}</td>
-                                <td>{{ myprocess.plan_finish_time }}</td>
+                                <td>{{ myprocess.create_time|date:"Y年m月d日" }}</td>
+                                <td>{{ myprocess.plan_finish_time|date:"Y年m月d日" }}</td>
                                 <td>{{ myprocess.related_person}}</td>
                                 <td>{{ myprocess.who_is_processing }}→{{ myprocess.status_level }}</td>
                                 <td>{{ myprocess.department }}</td>

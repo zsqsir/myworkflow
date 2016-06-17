@@ -4,6 +4,8 @@ from .forms import *
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from .models import *
 from django.contrib import messages
+from .common.decorators import ajax_required
+from django.views.decorators.http import require_POST
 
 @login_required
 def index(request):
@@ -74,7 +76,7 @@ def myform(request):
 @login_required
 def relatedform(request):
     content = dict(
-        myforms=worksheet.objects.filter(related_person__contains=request.user.first_name).order_by('-create_time'),
+        myforms=worksheet.objects.filter(related_person__contains=request.user.first_name),
         myprocesses=worksheet.objects.filter(who_is_processing=request.user.first_name),
         person_name=Department.objects.exclude(person=request.user).filter(department_name=request.user.department.department_name),
     )
@@ -150,7 +152,7 @@ def upfile(request):
             messages.error(request, '上传失败，检查后重试')
     return render(request,'process/upfile.html',content)
 
-@login_required()
+@login_required
 def myupfile(request):
     content=dict(
         myfiles=UpFile.objects.filter(author=request.user).order_by('-update'),
@@ -169,7 +171,7 @@ def myupfile(request):
         else:
             messages.error(request, '上传失败，检查后重试')
     return render(request,'process/myupfile.html',content)
-
+@login_required
 def ctmessage(request):
     content=dict(
         form=MessageForm(),
@@ -185,18 +187,18 @@ def ctmessage(request):
         else:
             messages.error(request,'发送失败')
     return render(request,'process/creat_message.html',content)
-
+@login_required
 def mymessage(request):
     content=dict(
-        messages_from=Message.objects.filter(to_user=request.user).exclude(accept_msg_status=0),
-        messages_to=Message.objects.filter(from_user=request.user).exclude(sender_msg_status=0),
-
+        messages_from=Message.objects.filter(to_user=request.user).exclude(accept_msg_status__in=[0,3]),
+        messages_to=Message.objects.filter(from_user=request.user).exclude(sender_msg_status__in=[0,3]),
     )
-    return render(request, 'process/mymessage.html', content)
+    return render(request, 'process/mymessage.html',content)
+
 
 def message_detail(request,mark_id):
     content=dict(
-        message=Message.objects.filter(marks=mark_id)
+        message=Message.objects.filter(marks=mark_id),
     )
     if request.method=='POST':
         user=User.objects.get(id=request.POST['to_user'])
@@ -205,7 +207,9 @@ def message_detail(request,mark_id):
         messages.success(request,'成功')
     return render(request,'process/message_detail.html',content)
 
-
+@ajax_required
+@login_required
+@require_POST
 def msg_ajax(request):
     if request.POST.get('accept_id'):
         id=request.POST.get('accept_id')
@@ -218,10 +222,54 @@ def msg_ajax(request):
         msg = Message.objects.get(id=int(id))
         msg.sender_msg_status=0
         msg.save()
-        return JsonResponse({'status':"ok"})
+        return JsonResponse({'status':"删除成功"})
+    if request.POST.get('new_msg_id'):
+        id = request.POST.get('new_msg_id')
+        msg = Message.objects.get(id=int(id))
+        msg.accept_msg_status = 2
+        msg.save()
+        return JsonResponse({'status': "成功"})
     else:
         return JsonResponse({"status":"wrong value"})
 
+@ajax_required
+@login_required
+@require_POST
+def msg_back_ajax(request):
+    if request.POST.get('msg_from_back_id'):
+        id = request.POST.get('msg_from_back_id')
+        msg = Message.objects.get(id=id)
+        msg.accept_msg_status = 2
+        msg.save()
+        return JsonResponse({'status': "删除成功"})
+    if request.POST.get('msg_to_back_id'):
+        id = request.POST.get('msg_to_back_id')
+        msg = Message.objects.get(id=id)
+        msg.sender_msg_status = 2
+        msg.save()
+        return JsonResponse({'status': "删除成功"})
+    if request.POST.get('msg_from_del_id'):
+        id = request.POST.get('msg_from_del_id')
+        msg = Message.objects.get(id=id)
+        msg.accept_msg_status = 3
+        msg.save()
+        return JsonResponse({'status': "删除成功"})
+    if request.POST.get('msg_to_del_id'):
+        id = request.POST.get('msg_to_del_id')
+        msg = Message.objects.get(id=id)
+        msg.sender_msg_status = 3
+        msg.save()
+        return JsonResponse({'status': "删除成功"})
+
+    else:
+        return JsonResponse({"status": "wrong value"})
+
+def trash(request):
+    content=dict(
+        trash_from=Message.objects.filter(to_user=request.user,accept_msg_status=0),
+        trash_to=Message.objects.filter(from_user=request.user,sender_msg_status=0)
+    )
+    return render(request,'process/trash.html',content)
 
 
 

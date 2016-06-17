@@ -1,19 +1,28 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block title %}我的收件箱{% endblock %}
-{% block nav %}<a href="{% url 'workflow:mymessage' %}" class="current">我的收件箱</a>{% endblock %}
+{% load my_tag %}
+{% block title %}我的收发件箱{% endblock %}
+{% block nav %}<a href="{% url 'workflow:mymessage' %}" class="current">我的收发件箱</a>{% endblock %}
 {% block left %}
-
 
     <script>
         $(document).ready(function() {
             $("button").click(function() {
                 var accept_id=$(this).attr("accept_id");
                 var send_id=$(this).attr("send_id");
+                $(this).parent().parent().remove();
                 $.post({% url 'workflow:msg_ajax' %},{accept_id:accept_id,send_id:send_id},function(data){
-                    console.log(data)
+                    console.log(data);
+                    alert(data['status']);
                 });
-            })
+            });
+            $('.new_msg').click(function() {
+                var new_msg_id=$(this).attr("new_msg_id");
+{#                $(this).next().remove();#}
+                $.post({% url 'workflow:msg_ajax' %},{new_msg_id:new_msg_id},function(data){
+                    console.log(data);
+                });
+            });
         })
     </script>
     <div class="row-fluid">
@@ -35,22 +44,24 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for new_message in messages_from %}
+                        {% for new_message in messages_from|my_order_by:'accept_msg_status,-created' %}
                             <tr class="center">
-                                <td>{{ new_message.from_user.first_name }}</td>
-                                <td><a href="{{ new_message.get_absolute_url }}">{{ new_message.title }}</a></td>
-                                <td><a href="{{ new_message.get_absolute_url }}">{{ new_message.content}}</a></td>
-                                <td>{{ new_message.created|date:"Y年m月d日" }}</td>
-                                <td style="width: 2cm"><button accept_id='{{ new_message.id }}' class="btn btn-success " >删除</button></td>
-
+                                <div class="table-tr">
+                                    <td>{{ new_message.from_user.first_name}}</td>
+                                    <td><a class='new_msg' new_msg_id="{{ new_message.id }}" href="{{ new_message.get_absolute_url }}">{{ new_message.title }}&nbsp&nbsp&nbsp{% if new_message.accept_msg_status == 1 %}<img style='width: 28px;height:28px' src="{% static 'img/new.png' %}">{% endif %}</a></td>
+                                    <td><a class='new_msg' new_msg_id="{{ new_message.id }}" href="{{ new_message.get_absolute_url }}">{{ new_message.content}}</a></td>
+                                    <td>{{ new_message.created|date:"Y年m月d日"}}</td>
+                                    <td style="width: 2cm">
+                                        <button accept_id='{{ new_message.id }}' class="btn btn-success " >删除</button>
+                                    </td>
+                                </div>
                             </tr>
                         {% endfor %}
-                        
-
                         </tbody>
                     </table>
                 </div>
-
+            </div>
+            <div class="widget-box">
                 <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                     <h5>我的发件箱</h5>
                 </div>
@@ -62,17 +73,19 @@
                             <th>标题</th>
                             <th>内容</th>
                             <th>发送时间</th>
-
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for new_message in messages_to %}
                             <tr class="center">
-                                <td>{{ new_message.to_user.first_name }}</td>
-                                <td><a href="{{ new_message.get_absolute_url }}">{{ new_message.title }}</a></td>
-                                <td><a href="{{ new_message.get_absolute_url }}">{{ new_message.content}}</a></td>
-                                <td>{{ new_message.created|date:"Y年m月d日" }}</td>
-                                <td style="width: 2cm"><button send_id='{{ new_message.id }}' class="btn btn-success " >删除</button></td>
+                                <div class="table-tr">
+                                    <td>{{ new_message.to_user.first_name }}</td>
+                                    <td><a href="{{ new_message.get_absolute_url }}">{{ new_message.title }}</a></td>
+                                    <td><a href="{{ new_message.get_absolute_url }}">{{ new_message.content}}</a></td>
+                                    <td>{{ new_message.created|date:"Y年m月d日" }}</td>
+                                    <td style="width: 2cm"><button send_id='{{ new_message.id }}' class="btn btn-success " >删除</button></td>
+                                <div>
                             </tr>
                         {% endfor %}
 

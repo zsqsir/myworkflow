@@ -9,7 +9,7 @@ urlpatterns=[
     url(r'^register/$',views.register,name='register'),
     url(r'^creat_form/$',views.creat_form,name='creat_form'),
     url(r'^myform/$',views.myform,name='myform'),
-    url(r'^relatedtable/$',views.relatedform,name='relatedform'),
+    url(r'^relatedform/$',views.relatedform,name='relatedform'),
     url(r'^application/$',views.application,name='application'),
     url(r'^reimbursement/$',views.creat_reimbursement,name='reimbursement'),
     url(r'^myreimbursement/$',views.myreimbursement,name='myreimbursement'),
@@ -20,6 +20,8 @@ urlpatterns=[
     url(r'^mymessage/$',views.mymessage,name='mymessage'),
     url(r'^message/(?P<mark_id>[0-9]+)/$',views.message_detail,name='message_detail'),
     url(r'^msg_ajax/$',views.msg_ajax,name='msg_ajax'),
+    url(r'^msg_back_ajax/$',views.msg_back_ajax,name='msg_back_ajax'),
+    url(r'^trash/$',views.trash,name='trash'),
 
 
 

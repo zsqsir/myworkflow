@@ -1,5 +1,5 @@
 
-from .models import worksheet,reimbursement
+from .models import worksheet,reimbursement,Message,File,UpFile
 
 def worksheet_num(request):
     if request.user.is_active:
@@ -30,5 +30,26 @@ def percent(request):
             return {'percent2': percent2}
         else:
             return {}
+    else:
+        return {}
+
+def new_message_num(request):
+    if request.user.is_active:
+        new_message=Message.objects.filter(to_user=request.user,accept_msg_status=1).count()
+        if new_message != 0:
+            return {'new_message':new_message}
+        else:
+            return {'new_message':''}
+    else:
+        return {}
+
+
+def file_count(request):
+    if request.user.is_active:
+        file_num=UpFile.objects.filter(author=request.user,status='等待审核').count()
+        if file_num !=0:
+            return {"file_num":file_num}
+        else:
+            return {"file_num": ''}
     else:
         return {}

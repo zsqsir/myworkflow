@@ -1,8 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 from django.core.urlresolvers import reverse
-import datetime
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User)
+    nickname=models.CharField('昵称',max_length=10,blank=True)
+    date_of_birth = models.DateField('生日',blank=True)
+    photo = models.ImageField('图片',upload_to='users/%Y/%m/%d',blank=True)
+    def __str__(self):
+        return '%s的资料'%(self.user.first_name)
+    class Meta:
+        verbose_name='个人资料'
+        verbose_name_plural='个人资料'
 
 class Notices(models.Model):
     title=models.CharField('标题',max_length=30)
@@ -103,7 +113,7 @@ class reimbursement(models.Model):
 
 class UpFile(models.Model):
     status_choise=(
-        ('等待审批', '等待审批'),
+        ('等待审核', '等待审核'),
         ('等待再次审批', '等待再次审批'),
         ('审批通过','审批通过'),
         ('审批不通过','审批不通过'),
@@ -143,12 +153,10 @@ class File(models.Model):
         return "所属标题《%s》的文件" % self.file_id.title
     upfile_id.short_description = '文件'
 
-
-
 class Message(models.Model):
     from_user=models.ForeignKey(User,verbose_name='发件人',related_name='sender')
     to_user=models.ForeignKey(User,verbose_name='收件人',related_name='accepter')
-    # 1是未读，2是已读，0是删除, 默认是1
+    # 1是未读，2是已读，0是删除, 3是彻底删除，默认是1
     sender_msg_status=models.IntegerField('发信状态',default=1)
     accept_msg_status=models.IntegerField('收信状态',default=1)
     title=models.CharField('标题',max_length=300)
@@ -163,13 +171,15 @@ class Message(models.Model):
         return "%s发给%s的短消息" % (self.from_user.first_name,self.to_user.first_name)
 
     message_admin.short_description = '站内短消息'
+    def __str__(self):
+        return self.title
 
     def up_id(self):
         self.marks=self.id
         self.save()
         return self
     class Meta:
-        ordering = ('created',)
+        ordering = ('-created',)
         verbose_name = '站内短消息'
         verbose_name_plural = '站内短消息'
 

@@ -21,7 +21,7 @@
                             <th>答复</th>
                             <th>上传时间</th>
                             <th>修改时间</th>
-                            <th>已上传文件</th>
+                            <th>不同版次的文件</th>
                             <th style="width: 4cm">更新文件</th>
                         </tr>
                         </thead>
@@ -35,12 +35,6 @@
                                 <td>{{ myfile.reply}}</td>
                                 <td>{{ myfile.created|date:"Y年m月d日" }}</td>
                                 <td>{{ myfile.update|date:"Y年m月d日" }}</td>
-{#                                <td><form  action="." class="form-inline" method="post" enctype="multipart/form-data" >#}
-{#                                    {% csrf_token %}#}
-{#                                    <input style="width: 3cm" type='file' name="change_file"></input>#}
-{#                                    <input type="hidden" name="id" value ="{{ myfile.id }}">#}
-{#                                    <input style="width: 3cm" type="submit" value="更新文件" class="btn btn-warning ">#}
-                                {#                                </form></td>#}
                                 <td style="width: 2.5cm">
                                     <form action="/" method="get">
                                         <select name="download">

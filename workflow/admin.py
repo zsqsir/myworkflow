@@ -24,7 +24,6 @@ class ApplicationAdmin(admin.ModelAdmin):
     search_fields = ('applicant__first_name','department')
     ordering = [ 'department', ]
     fields = ('applicant',('start_date','finished_date'),'reason','status','reply','department')
-    # raw_id_fields = ('applicant',)
 admin.site.register(Leave_application,ApplicationAdmin)
 class Reimbursement_personAdmin(admin.ModelAdmin):
     list_display = ['reimbursement_of_person','money']
@@ -45,9 +44,15 @@ class UpFileAdmin(admin.ModelAdmin):
     raw_id_fields = ('author',)
     date_hierarchy = 'created'
 admin.site.register(UpFile,UpFileAdmin)
+
 class FileAdmin(admin.ModelAdmin):
     list_display = ['upfile_id',]
 admin.site.register(File,FileAdmin)
+
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ['message_admin','created']
+    list_display = ['message_admin','title','created']
 admin.site.register(Message,MessageAdmin)
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'date_of_birth', 'photo']
+admin.site.register(Profile, ProfileAdmin)

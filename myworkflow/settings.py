@@ -67,6 +67,8 @@ TEMPLATES = [
                 'workflow.context_processor.worksheet_num',
                 'workflow.context_processor.worksheet_percent',
                 'workflow.context_processor.percent',
+                'workflow.context_processor.new_message_num',
+                'workflow.context_processor.file_count',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
@@ -116,4 +118,4 @@ LOGOUT_URL = '/login/'
 PASSWORD_RESET_TIMEOUT_DAYS = 3
 
 MEDIA_URL = '/file/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'file/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'workflow/','static/','file/')
