@@ -8,3 +8,13 @@ def ajax_required(fn):
     wrap.__doc__=fn.__doc__
     wrap.__name__=fn.__name__
     return wrap
+
+def must_login(fn):
+    def wrap(request,*args,**kwargs):
+        if request.user.is_active:
+            return fn(request, *args, **kwargs)
+        else:
+            return {}
+    wrap.__doc__ = fn.__doc__
+    wrap.__name__ = fn.__name__
+    return wrap

@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User,verbose_name='用户',related_name='user_pro')
     nickname=models.CharField('昵称',max_length=10,blank=True)
     date_of_birth = models.DateField('生日',blank=True)
     photo = models.ImageField('图片',upload_to='users/%Y/%m/%d',blank=True)

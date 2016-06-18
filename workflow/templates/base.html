@@ -20,6 +20,7 @@
         });
     })
 </script>
+</head>
 <body>
 <!--Header-part-->
 <div id="header">
@@ -139,11 +140,13 @@
             </div>
         </div>
     {% endif %}
-    {% block left %}{% endblock %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+        {% block left %}{% endblock %}
 
-{#   从这个地方开始复制 <div class="span6"></div>#}
-    {% block right %}{% endblock %}
-
+        {#   从这个地方开始复制 <div class="span6"></div>#}
+        {% block right %}{% endblock %}
+        </div>
     </div>
 </div>
 

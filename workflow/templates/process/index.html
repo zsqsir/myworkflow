@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load my_tag %}
+{% load staticfiles %}
 {% block title %}首页{% endblock %}
 {% block left %}
 <div class="span6">
@@ -20,12 +22,7 @@
                     </ul>
                 </div>
             </div>
-</div>
-{% endblock %}
-
-{% block right%}
-    <div class="span6">
-        <div class="widget-box collapsible">
+            <div class="widget-box collapsible">
             {% for i in myapplication %}
                 <div class="widget-title"> <a data-toggle="collapse" href="#collapse{{ forloop.counter }}"> <span class="icon"><i class="icon-arrow-right"></i></span>
                     <h5>我的请假申请 </h5>
@@ -42,9 +39,79 @@
                 </div>
             {% endfor %}
         </div>
+</div>
+{% endblock %}
 
+{% block right%}
+<script>
+    $(document).ready(function() {
+        $("#api").click(function() {
+            var info=$("#msg-box").val();
+            var user="{{ request.user.first_name }}";
+            $("#chat-messages-inner").append("<P><span class='msg-block'>"+user+"<span class='msg'>"+info+"</span></span></P>");
+            $.post("http://www.tuling123.com/openapi/api",{
+                "key":"3de408c3ab5cc3c66c9a7ceea40df38b",
+                "info":info,
+                "userid":{{ request.user.id }}
+            },function(data) {
+                if (data["url"]){
+                    $("#chat-messages-inner").append("<P><span class='msg-block'>机器人<span class='msg'>"+data['text']+"<br/><span><a href='"+data["url"]+"'>点击打开</a></span>"+"</span></span></P>");
+                }
+                else {
+                    $("#chat-messages-inner").append("<P><span class='msg-block'>机器人<span class='msg'>"+data['text']+"</span></span></P>");
+                    console.log(data)
+                }
+            })
+        })
+    })
+</script>
+    <div class="span6">
+        <div class="widget-box">
+             <div class="widget-title bg_lo"  data-toggle="collapse" href="#weather" > <span class="icon"> <i class="icon-chevron-down"></i> </span>
+                    <h5>天气预报</h5>
+                </div>
+            <div class="widget-content nopadding updates collapse in" id="weather">
+            <iframe  src="http://www.thinkpage.cn/weather/weather.aspx?uid=U4B61C7173&cid=CHBJ000000&l=&p=SMART&a=1&u=C&s=3&m=2&x=1&d=5&fc=&bgc=&bc=&ti=0&in=0&li=" frameborder="0" scrolling="no" width="800" height="110" allowTransparency="true"></iframe>
+            </div>
+        </div>
     </div>
+    <div class="span6">
+        <div class="widget-box widget-chat">
+          <div class="widget-title"> <span class="icon"> <i class="icon-comment"></i> </span>
+            <h5>Let's do a chat</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <div class="chat-users panel-right2">
+              <div class="panel-title">
+                <h5>机器人助手（我们聊天吧）</h5>
+              </div>
+              <div class="panel-content nopadding">
+                  <ul class="contact-list">
+                  <li id="user-Alex" class="online"><a href="#"><img style="height: 50px;width:50px" alt="" src="{% static 'images/robo.jpg' %}"> <span>机器人</span></a></li>
+                  <li id="user-Linda"><a href="#"><img style="height: 50px;width:50px" alt="" src="{{ user.user_pro.photo|static_file }}"> <span>{{ user.first_name }}</span></a></li>
+{#                  <li id="user-John" class="online new"><a href="#"><img alt="" src="img/demo/av3.jpg"> <span>John</span></a><span class="msg-count badge badge-info">3</span></li>#}
 
+                </ul>
+              </div>
+            </div>
+            <div class="chat-content panel-left2">
+              <div class="chat-messages" id="chat-messages">
+                <div id="chat-messages-inner">
+{#                    <P id="msg-1" class="user-mark" style="display: block;"><span class="msg-block">测试<span class="msg">xinxi</span></span></P>#}
+
+
+{#                    <p id="msg-2" class="user-mark" style="display: block;"><span class="msg-block"><img src="img/demo/av3.jpg" alt=""><strong>Mark</strong> <span class="time">- 13:59</span><span class="msg">ok Bye than!!!.</span></span></p>#}
+                </div>
+              </div>
+              <div class="chat-message well">
+                <button id="api" class="btn btn-success">发送</button>
+                <span class="input-box">
+                <input type="text" name="msg-box" id="msg-box">
+                </span> </div>
+            </div>
+          </div>
+        </div>
+      </div>
 {% endblock %}
 
 

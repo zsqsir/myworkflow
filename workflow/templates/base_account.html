@@ -11,7 +11,13 @@
     <link rel="stylesheet" href="{% static 'css/matrix-login.css' %}" />
     <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
-
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({data:{csrfmiddlewaretoken:'{{csrf_token}}'}
+            });
+        })
+    </script>
 </head>
 <body>
 
