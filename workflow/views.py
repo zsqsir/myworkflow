@@ -185,6 +185,19 @@ def myupfile(request):
             messages.error(request, '上传失败，检查后重试')
     return render(request, 'process/myupfile.html', content)
 
+@ajax_required
+@login_required
+@require_POST
+def search(request):
+    if request.POST.get('value'):
+        value=request.POST.get('value')
+        content=dict(
+            myfiles=File.objects.filter(file_name__contains=value)
+        )
+        return render(request,'process/search.html',content)
+    else:
+        return JsonResponse({"status":"输入有误"})
+
 
 @login_required
 def ctmessage(request):

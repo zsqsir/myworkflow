@@ -3,12 +3,29 @@
 {% block title %}文件上传{% endblock %}
 {% block nav %}<a href="{% url 'workflow:myupfile' %}" class="current">文件上传</a>{% endblock %}
 {% block left %}
+    <script>
+        $(document).ready(function() {
+            $("#search_btn").click(function() {
+                var value=$("#search_file").val();
+                $.post({% url "workflow:search" %},{ "value":value }, function(data){
+                            $("#ajax").remove();
+                            $("#first_div").after(data);
+                            console.log(data);
+                        }
+                )
+            })
+        })
+    </script>
 
     <div class="row-fluid">
-        <div class="span12">
+        <div id="first_div" class="span12">
             <div class="widget-box">
                 <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                     <h5>我上传的文件</h5>
+                    <div id="search">
+                      <input id="search_file" type="text" placeholder="输入关键字">
+                      <button id="search_btn" type="submit" class="tip-bottom" data-original-title="Search"><i class="icon-search icon-white"></i></button>
+                    </div>
                 </div>
                 <div class="widget-content nopadding">
                     <table class="table table-bordered data-table">
@@ -63,12 +80,11 @@
                         {% endfor %}
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 
