@@ -100,7 +100,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'zh_CN'
+LANGUAGE_CODE = 'zh-Hans'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -114,14 +114,18 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
+LOCALE_PATHS = [BASE_DIR]
 
-STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/index/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/login/'
 
 PASSWORD_RESET_TIMEOUT_DAYS = 3
+
+STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'workflow/','deployment/','static/')
+
 
 MEDIA_URL = '/file/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'workflow/','static/','file/')
