@@ -49,7 +49,8 @@
                                     <span class="input-box">
                                         <input type="hidden" name='title' value="回复:{{ ms.last.title }}">
                                         <input type="hidden" name='mark_id' value="{{ ms.first.marks }}">
-                                        <input type="hidden" name='to_user' value="{{ ms.first.from_user.id}}">
+                                        <input type="hidden" name='to_user' value="{% if ms.first.from_user = user %}{{ ms.first.to_user.id}}{% else %}{{ ms.first.from_user.id}}{% endif %}">
+
                                         <input type="text" name="msg" id="msg-box">
                                     </span>
                                 </form>

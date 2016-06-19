@@ -43,28 +43,48 @@
 {% endblock %}
 
 {% block right%}
-<script>
-    $(document).ready(function() {
-        $("#api").click(function() {
-            var info=$("#msg-box").val();
-            var user="{{ request.user.first_name }}";
-            $("#chat-messages-inner").append("<P><span class='msg-block'>"+user+"<span class='msg'>"+info+"</span></span></P>");
-            $.post("http://www.tuling123.com/openapi/api",{
-                "key":"3de408c3ab5cc3c66c9a7ceea40df38b",
-                "info":info,
-                "userid":{{ request.user.id }}
-            },function(data) {
-                if (data["url"]){
-                    $("#chat-messages-inner").append("<P><span class='msg-block'>机器人<span class='msg'>"+data['text']+"<br/><span><a href='"+data["url"]+"'>点击打开</a></span>"+"</span></span></P>");
+    <script>
+        $(document).ready(function() {
+            $("#msg-box").keyup(function press(e) {
+                if (e.keyCode==13){
+                    var info=$("#msg-box").val();
+                    var user="{{ request.user.first_name }}";
+                    $("#chat-messages-inner").append("<P><span class='msg-block'>"+user+"<span class='msg'>"+info+"</span></span></P>");
+                    $.post("http://www.tuling123.com/openapi/api",{
+                        "key":"3de408c3ab5cc3c66c9a7ceea40df38b",
+                        "info":info,
+                        "userid":{{ request.user.id }}
+                    },function(data) {
+                        if (data["url"]){
+                            $("#chat-messages-inner").append("<P><span class='msg-block'>机器人<span class='msg'>"+data['text']+"<br/><span><a href='"+data["url"]+"'>点击打开</a></span>"+"</span></span></P>");
+                        }
+                        else {
+                            $("#chat-messages-inner").append("<P><span class='msg-block'>机器人<span class='msg'>"+data['text']+"</span></span></P>");
+                            console.log(data)
+                        }
+                    })
                 }
-                else {
-                    $("#chat-messages-inner").append("<P><span class='msg-block'>机器人<span class='msg'>"+data['text']+"</span></span></P>");
-                    console.log(data)
-                }
+            });
+            $("#api").click(function() {
+                var info=$("#msg-box").val();
+                var user="{{ request.user.first_name }}";
+                $("#chat-messages-inner").append("<P><span class='msg-block'>"+user+"<span class='msg'>"+info+"</span></span></P>");
+                $.post("http://www.tuling123.com/openapi/api",{
+                    "key":"3de408c3ab5cc3c66c9a7ceea40df38b",
+                    "info":info,
+                    "userid":{{ request.user.id }}
+                },function(data) {
+                    if (data["url"]){
+                        $("#chat-messages-inner").append("<P><span class='msg-block'>机器人<span class='msg'>"+data['text']+"<br/><span><a href='"+data["url"]+"'>点击打开</a></span>"+"</span></span></P>");
+                    }
+                    else {
+                        $("#chat-messages-inner").append("<P><span class='msg-block'>机器人<span class='msg'>"+data['text']+"</span></span></P>");
+                        console.log(data)
+                    }
+                })
             })
         })
-    })
-</script>
+    </script>
     <div class="span6">
         <div class="widget-box">
             <div class="widget-title bg_lo"  data-toggle="collapse" href="#weather" > <span class="icon"> <i class="icon-chevron-down"></i> </span>

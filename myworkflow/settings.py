@@ -26,6 +26,12 @@ SECRET_KEY = 'x05fmwg#-zt^@w3(i!g4bpnp^%us1i0+sx00t$%$52rk*$lkk6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# STATICFILES_DIRS = (BASE_DIR+'/workflow/static',)
+
+
+
+
+
 ALLOWED_HOSTS = []
 
 

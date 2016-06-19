@@ -3,7 +3,6 @@
 {% block title %}涉及我的表单{% endblock %}
 {% block nav %}<a href="{% url 'workflow:relatedform' %}" class="current">涉及我的表单</a>{% endblock %}
 {% block left %}
-
     <div class="row-fluid">
         <div class="span12">
             <div class="widget-box">
@@ -48,6 +47,10 @@
                         </table>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
             <div class="widget-box">
                 <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                     <h5>需要我处理的表单</h5>
@@ -79,15 +82,16 @@
                                 <td>{{ myprocess.related_person}}</td>
                                 <td>{{ myprocess.who_is_processing }}→{{ myprocess.status_level }}</td>
                                 <td>{{ myprocess.department }}</td>
-                                <td><span><form action="." class="form-inline" method="post">
-                                     {% csrf_token %}
-                                    <select name="change_person" class="input-small" >
-                                        {% for i in person_name %}
-                                            <option value ="{{ myprocess.id }}+{{i.person.first_name }}">{{i.person.first_name }}</option>
-                                        {% endfor %}
-
-                                    </select>
-                                    <input type="submit" value="确定" class="btn btn-warning ">
+                                <td><span><form action="." class="form-inline" role="form" method="post">
+                                    <div class="form-group">
+                                         {% csrf_token %}
+                                        <select name="change_person" class="form-control input-small " >
+                                            {% for i in person_name %}
+                                                <option class="form-control" value ="{{ myprocess.id }}+{{i.person.first_name }}">{{i.person.first_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <input type="submit" value="确定" class="form-control btn btn-warning  ">
+                                    </div>
                                 </form>
                                 </td>
                                 <td><span><form action="." class="form-inline" method="post">
@@ -113,6 +117,7 @@
             </div>
         </div>
     </div>
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/jquery.ui.custom.js' %}"></script>
     <script src="{% static 'js/select2.min.js' %}"></script>

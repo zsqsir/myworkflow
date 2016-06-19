@@ -2,8 +2,7 @@
 {% block title %}文件上传{% endblock %}
 {% block nav %}<a href="{% url 'workflow:upfile' %}" class="current">文件上传</a>{% endblock %}
 {% block left %}
-    <div class="container-fluid">
-        <div class="row-fluid">
+    <div class="row-fluid">
             <div class="span12 ">
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
@@ -19,20 +18,21 @@
                                     <div class="controls ">
                                         {{ field}}
                                     </div>
-
                                 </div>
                             {% endfor %}
+
                                 <label class="control-label">上传文件</label>
                                 <div class="controls ">
                                     {{ myfileform.file_name}}
                                 </div>
+                                <hr/>
                             <p><font color="#f8f8ff">这里有彩蛋哦！这里有彩蛋哦！这里有彩蛋哦！</font><button type="submit" class="btn btn-success center-block">上传</button></P>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
+
 {% endblock %}
 
 

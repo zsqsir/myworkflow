@@ -1,12 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import *
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse,HttpResponse
 from .models import *
 from django.contrib import messages
 from .common.decorators import ajax_required
 from django.views.decorators.http import require_POST
-
 
 @login_required
 def index(request):
@@ -15,7 +14,6 @@ def index(request):
         myapplication=Leave_application.objects.filter(applicant=request.user),
     )
     return render(request, 'process/index.html', content)
-
 
 def register(request):
     if request.method == 'POST':
@@ -70,7 +68,6 @@ def application(request):
         else:
             messages.error(request, '填写有误请重试！')
     return render(request, 'process/application.html', content)
-
 
 @login_required
 def myform(request):
@@ -265,7 +262,6 @@ def msg_ajax(request):
     else:
         return JsonResponse({"status": "wrong value"})
 
-
 @ajax_required
 @login_required
 @require_POST
@@ -308,8 +304,12 @@ def trash(request):
     return render(request, 'process/trash.html', content)
 
 
-def test(request):
-    return render(request, 'process/test.html')
+def test(request,a):
+    b=1
+    return HttpResponse(b)
+
+def my404(request):
+    return render(request,'process/error404.html')
 
 #   使用自带的认证模块
 # def log_in(request):

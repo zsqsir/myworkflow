@@ -22,11 +22,11 @@
 </script>
 </head>
 <body>
-<!--Header-part-->
+
 <div id="header">
   <h1><a href="dashboard.html">管理系统</a></h1>
 </div>
-<!--close-Header-part-->
+
 
 <!--顶部目录-->
 <div id="user-nav" class="navbar navbar-inverse">
@@ -53,13 +53,7 @@
     <li class=""><a title="" href="{% url 'logout' %}"><i class="icon icon-share-alt"></i> <span class="text">登出</span></a></li>
   </ul>
 </div>
-<!--close-top-Header-menu-->
-{#<!--搜索框-->#}
-{#<div id="search">#}
-{#  <input type="text" placeholder="Search here..."/>#}
-{#  <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>#}
-{#</div>#}
-{#<!--搜索框结束-->#}
+<!--顶部目录结束-->
 
 <!--目录开始-->
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
@@ -114,11 +108,11 @@
     </li>
   </ul>
 </div>
-<!--目录结束u-->
+<!--目录结束-->
 
-<!--main-container-part-->
+<!--消息部分-->
 <div id="content">
-    <!--breadcrumbs-->
+
     <div id="content-header">
         <div id="breadcrumb"> <a href="{% url 'workflow:index' %}" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a>{% block nav %}{% endblock %}</div>
 
@@ -143,23 +137,20 @@
     <div class="container-fluid">
         <div class="row-fluid">
         {% block left %}{% endblock %}
-
-        {#   从这个地方开始复制 <div class="span6"></div>#}
         {% block right %}{% endblock %}
         </div>
     </div>
 </div>
+<!--消息部分-->
 
 
-<!--end-main-container-part-->
-
-<!--Footer-part-->
+<!--底部-->
 
 <div class="row-fluid">
   <div id="footer" class="span12"> 2016 &copy; Michael_Wang&nbsp;&nbsp;&nbsp;<a href="https://github.com/wkj89/">My GitHub</a> </div>
 </div>
 
-<!--end-Footer-part-->
+<!--底部-->
 
 <script src="{% static 'js/excanvas.min.js' %}"></script>
 <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -184,25 +175,21 @@
 <script src="{% static 'js/matrix.tables.js' %}"></script>
 
 <script type="text/javascript">
-  // This function is called from the pop-up menus to transfer to
-  // a different page. Ignore if the value returned is a null string:
+
   function goPage (newURL) {
 
-      // if url is empty, skip the menu dividers and reset the menu selection to default
       if (newURL != "") {
 
-          // if url is "-", it is this page -- reset the menu:
           if (newURL == "-" ) {
               resetMenu();
           }
-          // else, send page to designated URL
+
           else {
             document.location.href = newURL;
           }
       }
   }
 
-// resets the menu selection upon entry to this page:
 function resetMenu() {
    document.gomenu.selector.selectedIndex = 2;
 }

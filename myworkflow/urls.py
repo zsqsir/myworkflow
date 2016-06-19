@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+# from django.conf.urls import (handler400, handler403, handler404, handler500
+# )
+
+handler404 = 'workflow.views.my404'
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^',include('workflow.urls',namespace='workflow')),
     url(r'^',include('django.contrib.auth.urls')),
     url(r'^summernote/', include('django_summernote.urls')),
+    # url(r'^(?P<path>.*)$','django.views.static.serve',{'document_root':settings.STATIC_ROOT}),
 ]

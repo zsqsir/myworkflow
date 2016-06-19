@@ -16,7 +16,6 @@
             })
         })
     </script>
-
     <div class="row-fluid">
         <div id="first_div" class="span12">
             <div class="widget-box">
@@ -39,11 +38,11 @@
                             <th>上传时间</th>
                             <th>修改时间</th>
                             <th>不同版次的文件</th>
-                            <th style="width: 4cm">更新文件</th>
+                            <th {% comment %}style="width: 4cm"{% endcomment %}>更新文件</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for myfile in myfiles %}
+                            {% for myfile in myfiles %}
                             <tr class="center">
                                 <td>{{ myfile.title }}</td>
                                 <td>{{ myfile.last_file|filename }}</td>
@@ -53,18 +52,16 @@
                                 <td>{{ myfile.created|date:"Y年m月d日" }}</td>
                                 <td>{{ myfile.update|date:"Y年m月d日" }}</td>
                                 <td style="width: 2.5cm">
-                                    <form action="/" method="get">
-                                        <select name="download">
-
+                                    <form class="form-inline" role="form" action="/" method="get">
+                                        <select class="form-control" name="download">
                                             {% for i in myfile.file_all.all %}
                                                 <option value ="{{ i.file_name}}">{{ i.file_name|filename}}</option>
                                             {% endfor %}
-
                                         </select>
-                                        <button type="submit" class="btn btn-warning">下载</button>
+                                        <button style="margin-top: 10px" type="submit" class="btn btn-warning">下载</button>
                                     </form>
                                 </td>
-                                <td style="width: 2.5cm">
+                                <td {% comment %}style="width: 2.5cm"{% endcomment %}>
                                     <form action="." class="form-inline" method="post" enctype="multipart/form-data" >
                                         {% csrf_token %}
                                             <div class="control-group">
@@ -72,8 +69,8 @@
                                                     {{ myfileform.file_name}}
                                                 </div>
                                             </div>
-                                        <input type="hidden" name="id" value ="{{ myfile.id }}">
-                                        <input style="width: 2cm" type="submit" value="更新文件" class="btn btn-warning ">
+                                        <input class="form-control" type="hidden" name="id" value ="{{ myfile.id }}">
+                                        <input {% comment %}style="width: 2cm"{% endcomment %} type="submit" value="更新文件" class="btn btn-warning form-control ">
                                     </form>
                                 </td>
                             </tr>
@@ -84,7 +81,6 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
 
 
