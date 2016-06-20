@@ -23,6 +23,7 @@ urlpatterns=[
     url(r'^msg_back_ajax/$',views.msg_back_ajax,name='msg_back_ajax'),
     url(r'^trash/$',views.trash,name='trash'),
     url(r'^search/$',views.search,name='search'),
+    url(r'^robot/$',views.robot,name='robot'),
 
 
 

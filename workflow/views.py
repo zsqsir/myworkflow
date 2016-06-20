@@ -6,6 +6,7 @@ from .models import *
 from django.contrib import messages
 from .common.decorators import ajax_required
 from django.views.decorators.http import require_POST
+import requests
 
 @login_required
 def index(request):
@@ -302,6 +303,17 @@ def trash(request):
         trash_to=Message.objects.filter(from_user=request.user, sender_msg_status=0)
     )
     return render(request, 'process/trash.html', content)
+
+@ajax_required
+@login_required
+@require_POST
+def robot(request):
+    content={}
+    content['info'] = request.POST.get('info')
+    content['userid'] = request.POST.get('userid')
+    content['key']="3de408c3ab5cc3c66c9a7ceea40df38b"
+    r=requests.post("http://www.tuling123.com/openapi/api",data=content)
+    return JsonResponse(r.json())
 
 
 def test(request,a):
